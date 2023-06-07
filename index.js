@@ -44,6 +44,29 @@ const run = async () => {
       res.send(result);
       //   const result = await usersCollection.deleteOne(query);
     });
+
+    // let's explore update functionality
+    app.put("/users/update/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const user = req.body;
+      const options = { upsert: true };
+      const updatedUser = {
+        $set: {
+          name: user.name,
+          address: user.address,
+          email: user.email,
+        },
+      };
+
+      const result = await usersCollection.updateOne(
+        query,
+        updatedUser,
+        options
+      );
+
+      res.send(result);
+    });
   } finally {
   }
 };
