@@ -20,6 +20,13 @@ const run = async () => {
       const result = await usersCollection.insertOne(user);
       res.send(result);
     });
+
+    app.get("/users", async (req, res) => {
+      const query = {};
+      const curser = usersCollection.find(query);
+      const users = await curser.toArray();
+      res.send(users);
+    });
   } finally {
   }
 };
