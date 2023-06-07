@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 5000;
-const { MongoClient } = require("mongodb");
+const { MongoClient, ObjectId } = require("mongodb");
 
 // Middleware
 app.use(cors());
@@ -26,6 +26,16 @@ const run = async () => {
       const curser = usersCollection.find(query);
       const users = await curser.toArray();
       res.send(users);
+    });
+
+    app.delete("/user/:id", async (req, res) => {
+      const id = req.params.id;
+      const result = await usersCollection.deleteOne({
+        // must added new kayword before ObjectId()
+        _id: new ObjectId(id),
+      });
+      res.send(result);
+      //   const result = await usersCollection.deleteOne(query);
     });
   } finally {
   }
