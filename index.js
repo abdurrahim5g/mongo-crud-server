@@ -28,6 +28,13 @@ const run = async () => {
       res.send(users);
     });
 
+    app.get("/users/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const user = await usersCollection.findOne(query);
+      res.send(user);
+    });
+
     app.delete("/user/:id", async (req, res) => {
       const id = req.params.id;
       const result = await usersCollection.deleteOne({
